@@ -1,46 +1,139 @@
-import { Create } from '@refinedev/antd';
-import { Button, Divider, Rate, Tag, Typography } from 'antd';
-import { ImageCarousel } from './component/image-carousel';
+import { Create, useForm } from '@refinedev/antd';
+import { Button, Form, Input, InputNumber, Select, Spin } from 'antd';
+import { ImageCarouselCreate } from './component/image-carousel-create';
+import { useCreate } from '@refinedev/core';
 
 export const ProductCreate: React.FC = () => {
+  const { form } = useForm();
+  const { mutateAsync, isLoading } = useCreate();
+
+  const handleSubmit = (e: any) => {
+    console.log({ e });
+    mutateAsync({
+      resource: 'foods',
+      values: {
+        name: e.name,
+        price: e.price,
+        amount: e.quantity,
+        description: e.description,
+        categories_id: '',
+        categories: e.category,
+      },
+    });
+  };
   return (
-    <Create>
-      <h1>Product Create</h1>
-      <div className="flex ">
-        <div className="w-[50%]">
-          <ImageCarousel />
-        </div>
-        <div className="w-[50%]">
-          <Typography.Title>
-            Chinese Cabbage <Tag color="green">in Stock</Tag>
-          </Typography.Title>
-          <div>
-            <Rate allowHalf defaultValue={2.5} />
-            <span>8 Review</span>
-          </div>
-          <div className="flex justify-between">
-            <div className="flex">
-              <span className="text-gray-500 line-through">$48.00</span>
-              <span className="text-yellow-500">$17.28</span>
-              <Tag color="red">64% Off</Tag>
+    <Create
+      title="Create Product"
+      saveButtonProps={{
+        style: {
+          display: 'none',
+        },
+      }}
+    >
+      <Spin spinning={isLoading}>
+        <Form name="create-food" layout="vertical" form={form} onFinish={handleSubmit}>
+          <div className="flex justify-between ">
+            <div className="w-[45%]">
+              <ImageCarouselCreate />
             </div>
-            <span>Remaining: 23</span>
+            <div className="w-[50%] mr-8">
+              <Form.Item
+                label="Name"
+                name="name"
+                required
+                rules={[
+                  {
+                    message: 'Please input name',
+                    required: true,
+                  },
+                ]}
+              >
+                <Input placeholder="Please input name" size="large" />
+              </Form.Item>
+
+              <div className="flex justify-between">
+                <Form.Item
+                  label="Price"
+                  name="price"
+                  required
+                  rules={[
+                    {
+                      message: 'Please input price',
+                      required: true,
+                    },
+                  ]}
+                >
+                  <InputNumber
+                    placeholder="Price"
+                    min={0}
+                    style={{
+                      width: 200,
+                    }}
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="Quantity"
+                  name="quantity"
+                  required
+                  rules={[
+                    {
+                      message: 'Please input quantity',
+                      required: true,
+                    },
+                  ]}
+                >
+                  <InputNumber
+                    placeholder="Quantity"
+                    min={0}
+                    style={{
+                      width: 200,
+                    }}
+                  />
+                </Form.Item>
+              </div>
+              <Form.Item
+                label="Description"
+                name="description"
+                required
+                rules={[
+                  {
+                    message: 'Please input description',
+                    required: true,
+                  },
+                ]}
+              >
+                <Input.TextArea placeholder="Description" />
+              </Form.Item>
+              <Form.Item
+                label="Category"
+                name="category"
+                required
+                rules={[
+                  {
+                    message: 'Please input category',
+                    required: true,
+                  },
+                ]}
+              >
+                <Select
+                  placeholder="Category"
+                  options={[
+                    {
+                      label: 'Vegetables',
+                      value: 'vegetables',
+                    },
+                  ]}
+                />
+              </Form.Item>
+            </div>
           </div>
-          <Divider />
-          <p className="text-gray-300">
-            Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla nibh diam,
-            blandit vel consequat nec, ultrices et ipsum. Nulla varius magna a consequat pulvinar.
-          </p>
-          <p>
-            <span className="font-bold">Category:</span> Vegetables
-          </p>
-          <div className="flex">
-            <Button>Change information</Button>
-            <Button className="bg-violet-700 text-white hover:bg-violet-800 hover:text-white">Disable</Button>
-            <Button className="bg-red-500 text-white">Delete</Button>
+          <div className="flex justify-end">
+            <Button type="primary" onClick={() => form.submit()}>
+              Create Product
+            </Button>
           </div>
-        </div>
-      </div>
+        </Form>
+      </Spin>
     </Create>
   );
 };

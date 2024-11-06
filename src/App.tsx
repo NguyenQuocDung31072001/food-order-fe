@@ -22,7 +22,7 @@ import { BrandCreate, BrandEdit, BrandList } from 'pages/brand';
 import dataProviderNestJsx from '@refinedev/nestjsx-crud';
 import config from 'config';
 import { useAuthProvider } from 'hooks/use-auth-provider';
-import { ProductCreate, ProductList } from 'pages/products';
+import { ProductCreate, ProductList, ProductShow } from 'pages/products';
 
 const App: React.FC = () => {
   const { axiosInstance } = useAuthProvider();
@@ -72,6 +72,7 @@ const App: React.FC = () => {
                 <Route path="/products">
                   <Route index element={<ProductList />} />
                   <Route path="create" element={<ProductCreate />} />
+                  <Route path=":id" element={<ProductShow />} />
                   {/* <Route path="edit/:id" element={<ProductEdit />} /> */}
                 </Route>
                 <Route path="/brand">
