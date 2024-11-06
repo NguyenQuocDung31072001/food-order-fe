@@ -2,27 +2,24 @@ import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import React from 'react';
 
-// const imageList = [
-//   'https://res.cloudinary.com/dcrjho9el/image/upload/v1685856373/ff5mrlofnw90v9mbqmbt.jpg',
-//   'https://res.cloudinary.com/dcrjho9el/image/upload/v1685856512/kn8iveigpuyurji1rvuk.jpg',
-//   'https://res.cloudinary.com/dcrjho9el/image/upload/v1685856266/ycxtwqivwqyncx1fuhlf.jpg',
-//   'https://res.cloudinary.com/dcrjho9el/image/upload/v1685856329/zgiirlv3cgdhvhfxwwmw.jpg',
-//   'https://res.cloudinary.com/dcrjho9el/image/upload/v1685856159/oys6h4blszsginrfgzxb.jpg',
-//   'https://res.cloudinary.com/dcrjho9el/image/upload/v1685856512/kn8iveigpuyurji1rvuk.jpg',
-//   'https://res.cloudinary.com/dcrjho9el/image/upload/v1685856266/ycxtwqivwqyncx1fuhlf.jpg',
-//   'https://res.cloudinary.com/dcrjho9el/image/upload/v1685856329/zgiirlv3cgdhvhfxwwmw.jpg',
-// ];
+const imageList = [
+  'https://res.cloudinary.com/dcrjho9el/image/upload/v1685856373/ff5mrlofnw90v9mbqmbt.jpg',
+  'https://res.cloudinary.com/dcrjho9el/image/upload/v1685856512/kn8iveigpuyurji1rvuk.jpg',
+  'https://res.cloudinary.com/dcrjho9el/image/upload/v1685856266/ycxtwqivwqyncx1fuhlf.jpg',
+  'https://res.cloudinary.com/dcrjho9el/image/upload/v1685856329/zgiirlv3cgdhvhfxwwmw.jpg',
+  'https://res.cloudinary.com/dcrjho9el/image/upload/v1685856159/oys6h4blszsginrfgzxb.jpg',
+  'https://res.cloudinary.com/dcrjho9el/image/upload/v1685856512/kn8iveigpuyurji1rvuk.jpg',
+  'https://res.cloudinary.com/dcrjho9el/image/upload/v1685856266/ycxtwqivwqyncx1fuhlf.jpg',
+  'https://res.cloudinary.com/dcrjho9el/image/upload/v1685856329/zgiirlv3cgdhvhfxwwmw.jpg',
+];
 const ITEM_SPACE = 100;
 const ITEM_SIZE = 5;
 const ITEM_JUMP = 2;
 const generateKey = (pre: string, index: number) => {
   return `${pre}_${index}`;
 };
-type ImageCarouselProps = {
-  imageLists: string[];
-};
-export const ImageCarousel: React.FC<ImageCarouselProps> = ({ imageLists }) => {
-  const [imageSelected, setImageSelected] = React.useState(imageLists[0]);
+export const ImageCarousel: React.FC = () => {
+  const [imageSelected, setImageSelected] = React.useState(imageList[0]);
   const [imageKey, setImageKey] = React.useState(generateKey(imageSelected, 0));
   const [translateY, setTranslateY] = React.useState(0);
 
@@ -45,7 +42,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ imageLists }) => {
             }}
             className="duration-300"
           >
-            {imageLists.map((image, index) => (
+            {imageList.map((image, index) => (
               <div
                 key={generateKey(image, index)}
                 style={{ borderColor: imageKey === generateKey(image, index) ? '#16a34a' : '' }}
@@ -65,7 +62,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ imageLists }) => {
           type="text"
           style={{ background: 'transparent' }}
           className="p-0 h-4 my-2"
-          disabled={Math.abs(translateY) + ITEM_SPACE * ITEM_SIZE >= imageLists.length * ITEM_SPACE}
+          disabled={Math.abs(translateY) + ITEM_SPACE * ITEM_SIZE >= imageList.length * ITEM_SPACE}
           onClick={() => setTranslateY(translateY - ITEM_SPACE * ITEM_JUMP)}
         >
           <DownOutlined className="text-[18px]" />

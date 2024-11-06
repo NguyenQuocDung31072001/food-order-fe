@@ -1,24 +1,43 @@
 import { Create, useForm } from '@refinedev/antd';
 import { Button, Form, Input, InputNumber, Select, Spin } from 'antd';
-import { ImageCarouselCreate } from './component/image-carousel-create';
+import { ImageCarouselCreate, ImageListType } from './component/image-carousel-create';
 import { useCreate } from '@refinedev/core';
+import { CategoriesSelect } from './component/form/categories-select';
+import React from 'react';
 
 export const ProductCreate: React.FC = () => {
+  const [imageLists, setImageLists] = React.useState<ImageListType[]>([]);
   const { form } = useForm();
-  const { mutateAsync, isLoading } = useCreate();
+  const { mutateAsync: mutateAsyncFood, isLoading: isLoadingCreateFood } = useCreate();
+  const { mutateAsync: mutateAsyncImageFood, isLoading: isLoadingCreateImageFood } = useCreate();
 
   const handleSubmit = (e: any) => {
     console.log({ e });
-    mutateAsync({
+    mutateAsyncFood({
       resource: 'foods',
       values: {
         name: e.name,
         price: e.price,
         amount: e.quantity,
         description: e.description,
-        categories_id: '',
+        categories_id: e.category,
         categories: e.category,
       },
+    }).then((res) => {
+      console.log({ res });
+      const _data = res.data;
+      const id = _data?.id;
+      for (const image of imageLists) {
+        mutateAsyncImageFood({
+          resource: 'image-food',
+          values: {
+            food_id: id,
+            food: id,
+            image_public_id: image.public_id,
+            image: image.url,
+          },
+        });
+      }
     });
   };
   return (
@@ -30,11 +49,11 @@ export const ProductCreate: React.FC = () => {
         },
       }}
     >
-      <Spin spinning={isLoading}>
+      <Spin spinning={isLoadingCreateFood || isLoadingCreateImageFood}>
         <Form name="create-food" layout="vertical" form={form} onFinish={handleSubmit}>
           <div className="flex justify-between ">
             <div className="w-[45%]">
-              <ImageCarouselCreate />
+              <ImageCarouselCreate imageLists={imageLists} setImageLists={setImageLists} />
             </div>
             <div className="w-[50%] mr-8">
               <Form.Item
@@ -104,27 +123,7 @@ export const ProductCreate: React.FC = () => {
               >
                 <Input.TextArea placeholder="Description" />
               </Form.Item>
-              <Form.Item
-                label="Category"
-                name="category"
-                required
-                rules={[
-                  {
-                    message: 'Please input category',
-                    required: true,
-                  },
-                ]}
-              >
-                <Select
-                  placeholder="Category"
-                  options={[
-                    {
-                      label: 'Vegetables',
-                      value: 'vegetables',
-                    },
-                  ]}
-                />
-              </Form.Item>
+              <CategoriesSelect form={form} />
             </div>
           </div>
           <div className="flex justify-end">

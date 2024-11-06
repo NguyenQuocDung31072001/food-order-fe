@@ -15,13 +15,15 @@ const ITEM_SPACE = 100;
 const ITEM_SIZE = 5;
 const ITEM_JUMP = 2;
 
-type ImageCarouselProps = {};
-type ImageListType = {
+type ImageCarouselProps = {
+  imageLists: ImageListType[];
+  setImageLists: React.Dispatch<React.SetStateAction<ImageListType[]>>;
+};
+export type ImageListType = {
   url: string;
   public_id: string;
 };
-export const ImageCarouselCreate: React.FC<ImageCarouselProps> = () => {
-  const [imageLists, setImageLists] = React.useState<ImageListType[]>([]);
+export const ImageCarouselCreate: React.FC<ImageCarouselProps> = ({ imageLists, setImageLists }) => {
   const [imageSelected, setImageSelected] = React.useState<ImageListType>();
   const [translateY, setTranslateY] = React.useState(0);
 

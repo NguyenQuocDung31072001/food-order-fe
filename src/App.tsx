@@ -39,7 +39,7 @@ const App: React.FC = () => {
             }}
             // authProvider={authProvider}
             options={{
-              syncWithLocation: true,
+              syncWithLocation: false,
               warnWhenUnsavedChanges: true,
             }}
             notificationProvider={useNotificationProvider}
