@@ -6,6 +6,7 @@ import routerProvider, {
   CatchAllNavigate,
   UnsavedChangesNotifier,
   DocumentTitleHandler,
+  NavigateToResource,
 } from '@refinedev/react-router-v6';
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 import { ShopOutlined } from '@ant-design/icons';
@@ -24,9 +25,10 @@ import config from 'config';
 import { useAuthProvider } from 'hooks/use-auth-provider';
 import { ProductCreate, ProductList, ProductShow } from 'pages/products';
 import { CategoriesCreate, CategoriesEdit, CategoriesList } from 'pages/categories';
+import { LoginPage, RegisterPage } from 'pages/auth';
 
 const App: React.FC = () => {
-  const { axiosInstance } = useAuthProvider();
+  const { axiosInstance, authProvider } = useAuthProvider();
 
   return (
     <BrowserRouter>
@@ -37,7 +39,7 @@ const App: React.FC = () => {
             dataProvider={{
               default: dataProviderNestJsx(config.BACKEND_API_URL + '/api', axiosInstance),
             }}
-            // authProvider={authProvider}
+            authProvider={authProvider}
             options={{
               syncWithLocation: false,
               warnWhenUnsavedChanges: true,
@@ -69,6 +71,11 @@ const App: React.FC = () => {
             ]}
           >
             <Routes>
+              <Route element={<Outlet />}>
+                <Route path={'/login'} element={<LoginPage />} />
+                <Route path={'/register'} element={<RegisterPage />} />
+              </Route>
+
               <Route
                 element={
                   <Authenticated key="authenticated-routes" fallback={<CatchAllNavigate to="/login" />}>

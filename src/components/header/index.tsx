@@ -56,7 +56,8 @@ export const Header: React.FC = () => {
     onClick: () => changeLanguage(lang),
     icon: (
       <span style={{ marginRight: 8 }}>
-        <Avatar size={16} src={`/images/flags/${lang}.svg`} />
+        {/* <Avatar size={16} src={`/images/flags/${lang}.svg`} /> */}
+        ok
       </span>
     ),
     label: lang === 'en' ? 'English' : 'German',
@@ -112,7 +113,6 @@ export const Header: React.FC = () => {
             >
               <a style={{ color: 'inherit' }} onClick={(e) => e.preventDefault()}>
                 <Space>
-                  <Avatar size={16} src={`/images/flags/${currentLocale}.svg`} />
                   <div
                     style={{
                       display: screens.lg ? 'block' : 'none',
