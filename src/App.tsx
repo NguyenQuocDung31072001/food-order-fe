@@ -19,13 +19,14 @@ import { ConfigProvider } from './context';
 import 'assets/styles/styles.scss';
 import '@refinedev/antd/dist/reset.css';
 
-import { BrandCreate, BrandEdit, BrandList } from 'pages/brand';
 import dataProviderNestJsx from '@refinedev/nestjsx-crud';
 import config from 'config';
 import { useAuthProvider } from 'hooks/use-auth-provider';
 import { ProductCreate, ProductList, ProductShow } from 'pages/products';
 import { CategoriesCreate, CategoriesEdit, CategoriesList } from 'pages/categories';
 import { LoginPage, RegisterPage } from 'pages/auth';
+import { UserDashboardList } from 'pages/user-dashboard';
+import { UserHeader } from 'components/header/user-header';
 
 const App: React.FC = () => {
   const { axiosInstance, authProvider } = useAuthProvider();
@@ -47,26 +48,26 @@ const App: React.FC = () => {
             notificationProvider={useNotificationProvider}
             resources={[
               {
-                name: 'Dashboard',
-                icon: <ShopOutlined />,
+                name: 'admin',
               },
               {
                 name: 'products',
                 list: '/products',
                 create: '/products/create',
                 show: '/products/:id',
+                parentName: 'admin',
               },
               {
                 name: 'categories',
                 list: '/categories',
                 create: '/categories/create',
                 edit: '/categories/edit/:id',
+                parentName: 'admin',
               },
+              { name: 'user' },
               {
-                name: 'brand',
-                list: '/brand',
-                create: '/brand/create',
-                edit: '/brand/edit/:id',
+                name: 'Dashboard',
+                list: '/user/dashboard',
               },
             ]}
           >
@@ -96,22 +97,23 @@ const App: React.FC = () => {
                   <Route path="create" element={<CategoriesCreate />} />
                   <Route path="edit/:id" element={<CategoriesEdit />} />
                 </Route>
-                <Route path="/brand">
-                  <Route index element={<BrandList />} />
-                  <Route path="create" element={<BrandCreate />} />
-                  <Route path="edit/:id" element={<BrandEdit />} />
+                <Route element={<Authenticated key="catch-all"></Authenticated>}>
+                  <Route path="*" element={<ErrorComponent />} />
                 </Route>
-
-                <Route
-                  element={
-                    <Authenticated key="catch-all">
-                      {/* <ThemedLayoutV2 Header={Header} Title={Title} OffLayoutArea={OffLayoutArea}>
-                        <Outlet />
-                      </ThemedLayoutV2> */}
+              </Route>
+              <Route
+                element={
+                  <Authenticated key="authenticated-routes" fallback={<CatchAllNavigate to="/login" />}>
+                    <ThemedLayoutV2 Header={UserHeader} Title={Title} OffLayoutArea={OffLayoutArea}>
                       <Outlet />
-                    </Authenticated>
-                  }
-                >
+                    </ThemedLayoutV2>
+                  </Authenticated>
+                }
+              >
+                <Route path="/user/dashboard">
+                  <Route index element={<UserDashboardList />} />
+                </Route>
+                <Route element={<Authenticated key="catch-all"></Authenticated>}>
                   <Route path="*" element={<ErrorComponent />} />
                 </Route>
               </Route>

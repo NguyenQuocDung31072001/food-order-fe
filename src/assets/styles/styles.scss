@@ -12,3 +12,14 @@
 .ant-card.mrev-card {
   box-shadow: 5px 5px 10px rgba(163, 177, 198, 0.5), -5px -5px 10px rgba(255, 255, 255, 0.6);
 }
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  background-color: white;  
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c9c8c8;   
+  border-radius: 10px;
+}
