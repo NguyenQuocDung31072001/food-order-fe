@@ -6,10 +6,8 @@ import routerProvider, {
   CatchAllNavigate,
   UnsavedChangesNotifier,
   DocumentTitleHandler,
-  NavigateToResource,
 } from '@refinedev/react-router-v6';
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
-import { ShopOutlined } from '@ant-design/icons';
 
 import 'dayjs/locale/de';
 
@@ -26,7 +24,7 @@ import { ProductCreate, ProductList, ProductShow } from 'pages/products';
 import { CategoriesCreate, CategoriesEdit, CategoriesList } from 'pages/categories';
 import { LoginPage, RegisterPage } from 'pages/auth';
 import { UserDashboardList } from 'pages/user-dashboard';
-import { UserHeader } from 'components/header/user-header';
+import { CustomerLayout } from 'components/layout';
 
 const App: React.FC = () => {
   const { axiosInstance, authProvider } = useAuthProvider();
@@ -104,14 +102,17 @@ const App: React.FC = () => {
               <Route
                 element={
                   <Authenticated key="authenticated-routes" fallback={<CatchAllNavigate to="/login" />}>
-                    <ThemedLayoutV2 Header={UserHeader} Title={Title} OffLayoutArea={OffLayoutArea}>
+                    <CustomerLayout>
                       <Outlet />
-                    </ThemedLayoutV2>
+                    </CustomerLayout>
                   </Authenticated>
                 }
               >
                 <Route path="/user/dashboard">
                   <Route index element={<UserDashboardList />} />
+                </Route>
+                <Route path="/user/test">
+                  <Route index element={<div>test ne</div>} />
                 </Route>
                 <Route element={<Authenticated key="catch-all"></Authenticated>}>
                   <Route path="*" element={<ErrorComponent />} />

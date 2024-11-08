@@ -1,6 +1,6 @@
 import { BellOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 
-export const UserHeader: React.FC = () => {
+export const CustomerHeader: React.FC = () => {
   return (
     <div className="flex justify-between items-center bg-white pt-8 pb-2 px-4">
       <p className="text-[24px] font-bold">Hello, Patricia</p>
