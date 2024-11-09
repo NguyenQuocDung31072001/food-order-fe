@@ -3,8 +3,8 @@ import { Pagination, Rate } from 'antd';
 import { DishesItem } from 'components/dishes';
 import React from 'react';
 
-type AllDishesWrapperProps = {};
-const rawData = Array(100)
+type AllFavoriteDishesProps = {};
+const rawData = Array(24)
   .fill(0)
   .map((_, index) => {
     return {
@@ -14,10 +14,10 @@ const rawData = Array(100)
       name: 'Beef Burger',
       price: 5.59,
       discountPercent: 15,
-      isFavorite: index % 2 === 0 ? false : true,
+      isFavorite: true,
     };
   });
-export const AllDishesWrapper: React.FC<AllDishesWrapperProps> = () => {
+export const AllFavoriteDishes: React.FC<AllFavoriteDishesProps> = () => {
   const [page, setPage] = React.useState(1);
   const [pageSize, setPageSize] = React.useState(10);
 
@@ -25,7 +25,7 @@ export const AllDishesWrapper: React.FC<AllDishesWrapperProps> = () => {
 
   return (
     <div className="">
-      <div className="bg-white z-50 font-bold text-[24px] py-4 sticky top-0 ml-4">All Dishes</div>
+      <div className="bg-white z-50 font-bold text-[24px] py-4 sticky top-0 ml-4">Your Favorite Dishes</div>
       <div className="flex flex-wrap ">
         {data.map((item) => {
           return <DishesItem key={item.id} item={item} />;

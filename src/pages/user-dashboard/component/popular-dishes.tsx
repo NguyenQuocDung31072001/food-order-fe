@@ -1,6 +1,6 @@
-import { DishesItem } from './dishes-item';
 import React from 'react';
 import { SliderCustom } from 'components/slider/slider-custom';
+import { DishesItem } from 'components/dishes';
 
 const rawData = Array(10)
   .fill(0)
