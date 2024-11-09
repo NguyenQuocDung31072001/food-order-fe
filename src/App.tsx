@@ -29,6 +29,7 @@ import { UserFavoriteList } from 'pages/user-favorite';
 import { CatchNotFoundAdmin, CatchNotFoundOther, CatchNotFoundUser } from 'pages/catch-not-found';
 import { CustomerOrderHistoryList, CustomerOrderHistoryShow } from 'pages/customer-order-history';
 import { PATH_NAME_ADMIN, PATH_NAME_CUSTOMER } from 'constant/path-route';
+import { CustomerSettingAccountList } from './pages/customer-seting-account/list';
 
 const App: React.FC = () => {
   const { axiosInstance, authProvider } = useAuthProvider();
@@ -116,6 +117,9 @@ const App: React.FC = () => {
                 <Route path={PATH_NAME_CUSTOMER.ORDER_HISTORY.KEY}>
                   <Route index element={<CustomerOrderHistoryList />} />
                   <Route path=":id" element={<CustomerOrderHistoryShow />} />
+                </Route>
+                <Route path={PATH_NAME_CUSTOMER.SETTING.KEY}>
+                  <Route index element={<CustomerSettingAccountList />} />
                 </Route>
                 <Route path="*" element={<CatchNotFoundUser />} />
               </Route>

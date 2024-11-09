@@ -31,6 +31,10 @@ export const PATH_NAME_CUSTOMER = {
     KEY: 'order-history',
     INDEX: '/user/order-history',
   },
+  SETTING: {
+    KEY: 'setting',
+    INDEX: '/user/setting',
+  },
   OTHER: {
     CATCH_ALL: '/user/*',
   },

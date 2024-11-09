@@ -21,7 +21,7 @@ export const ModalReview: React.FC<{ record: any }> = ({ record }) => {
           return (
             <div className="flex justify-end">
               <div
-                className="text-white bg-yellow-400 rounded-[20px] py-2 px-4 cursor-pointer hover:bg-yellow-500"
+                className="text-white bg-yellow-400 rounded-[10px] py-2 px-4 cursor-pointer hover:bg-yellow-500"
                 onClick={() => setOpen(false)}
               >
                 Done
