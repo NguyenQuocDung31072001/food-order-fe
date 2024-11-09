@@ -25,6 +25,8 @@ import { CategoriesCreate, CategoriesEdit, CategoriesList } from 'pages/categori
 import { LoginPage, RegisterPage } from 'pages/auth';
 import { UserDashboardList } from 'pages/user-dashboard';
 import { CustomerLayout } from 'components/layout';
+import { UserFavoriteList } from 'pages/user-favorite';
+import { CatchNotFoundAdmin, CatchNotFoundOther, CatchNotFoundUser } from 'pages/catch-not-found';
 
 const App: React.FC = () => {
   const { axiosInstance, authProvider } = useAuthProvider();
@@ -62,11 +64,6 @@ const App: React.FC = () => {
                 edit: '/categories/edit/:id',
                 parentName: 'admin',
               },
-              { name: 'user' },
-              {
-                name: 'Dashboard',
-                list: '/user/dashboard',
-              },
             ]}
           >
             <Routes>
@@ -83,21 +80,20 @@ const App: React.FC = () => {
                     </ThemedLayoutV2>
                   </Authenticated>
                 }
+                path="admin"
               >
-                <Route path="/products">
+                <Route path="products">
                   <Route index element={<ProductList />} />
                   <Route path="create" element={<ProductCreate />} />
                   <Route path=":id" element={<ProductShow />} />
                   {/* <Route path="edit/:id" element={<ProductEdit />} /> */}
                 </Route>
-                <Route path="/categories">
+                <Route path="categories">
                   <Route index element={<CategoriesList />} />
                   <Route path="create" element={<CategoriesCreate />} />
                   <Route path="edit/:id" element={<CategoriesEdit />} />
                 </Route>
-                <Route element={<Authenticated key="catch-all"></Authenticated>}>
-                  <Route path="*" element={<ErrorComponent />} />
-                </Route>
+                <Route path="*" element={<CatchNotFoundAdmin />} />
               </Route>
               <Route
                 element={
@@ -107,17 +103,17 @@ const App: React.FC = () => {
                     </CustomerLayout>
                   </Authenticated>
                 }
+                path="/user"
               >
-                <Route path="/user/dashboard">
+                <Route path="dashboard">
                   <Route index element={<UserDashboardList />} />
                 </Route>
-                <Route path="/user/test">
-                  <Route index element={<div>test ne</div>} />
+                <Route path="favorite">
+                  <Route index element={<UserFavoriteList />} />
                 </Route>
-                <Route element={<Authenticated key="catch-all"></Authenticated>}>
-                  <Route path="*" element={<ErrorComponent />} />
-                </Route>
+                <Route path="*" element={<CatchNotFoundUser />} />
               </Route>
+              <Route path="*" element={<CatchNotFoundOther />} />
             </Routes>
             <UnsavedChangesNotifier />
             <DocumentTitleHandler />

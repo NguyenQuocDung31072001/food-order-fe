@@ -1,17 +1,18 @@
-import { MenuFoldOutlined } from '@ant-design/icons';
+import { HighlightOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import { useNavigation } from '@refinedev/core';
+import { PATH_NAME_CUSTOMER } from 'constant/path-route';
 import { NavLink } from 'react-router-dom';
 
 const items = [
   {
     icon: <MenuFoldOutlined />,
     name: 'Dashboard',
-    route: '/user/dashboard',
+    route: PATH_NAME_CUSTOMER.DASHBOARD.INDEX,
   },
   {
-    icon: <MenuFoldOutlined />,
-    name: 'test',
-    route: '/user/test',
+    icon: <HighlightOutlined />,
+    name: 'Favorite',
+    route: PATH_NAME_CUSTOMER.FAVORITE.INDEX,
   },
 ];
 export const CustomerSider: React.FC<any> = () => {
