@@ -11,10 +11,7 @@ export const CustomerLayout: React.FC<CustomerLayoutProps> = ({ children }) => {
         <div className="w-[200px]">
           <CustomerSider />
         </div>
-        <div className="ml-4 flex-1 ">
-          <CustomerHeader />
-          {children}
-        </div>
+        <div className="ml-4 flex-1 p-4">{children}</div>
       </div>
     </div>
   );

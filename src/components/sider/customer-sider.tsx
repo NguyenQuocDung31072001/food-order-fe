@@ -1,4 +1,4 @@
-import { HighlightOutlined, MenuFoldOutlined } from '@ant-design/icons';
+import { HighlightOutlined, MenuFoldOutlined, PieChartOutlined } from '@ant-design/icons';
 import { useNavigation } from '@refinedev/core';
 import { PATH_NAME_CUSTOMER } from 'constant/path-route';
 import { NavLink } from 'react-router-dom';
@@ -13,6 +13,11 @@ const items = [
     icon: <HighlightOutlined />,
     name: 'Favorite',
     route: PATH_NAME_CUSTOMER.FAVORITE.INDEX,
+  },
+  {
+    icon: <PieChartOutlined />,
+    name: 'Order History',
+    route: PATH_NAME_CUSTOMER.ORDER_HISTORY.INDEX,
   },
 ];
 export const CustomerSider: React.FC<any> = () => {

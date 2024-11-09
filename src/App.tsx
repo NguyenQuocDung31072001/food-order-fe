@@ -1,7 +1,7 @@
 import React from 'react';
 import { Authenticated, Refine } from '@refinedev/core';
 import { RefineKbarProvider } from '@refinedev/kbar';
-import { ThemedLayoutV2, ErrorComponent, useNotificationProvider } from '@refinedev/antd';
+import { ThemedLayoutV2, useNotificationProvider } from '@refinedev/antd';
 import routerProvider, {
   CatchAllNavigate,
   UnsavedChangesNotifier,
@@ -27,6 +27,8 @@ import { UserDashboardList } from 'pages/user-dashboard';
 import { CustomerLayout } from 'components/layout';
 import { UserFavoriteList } from 'pages/user-favorite';
 import { CatchNotFoundAdmin, CatchNotFoundOther, CatchNotFoundUser } from 'pages/catch-not-found';
+import { CustomerOrderHistoryList, CustomerOrderHistoryShow } from 'pages/customer-order-history';
+import { PATH_NAME_ADMIN, PATH_NAME_CUSTOMER } from 'constant/path-route';
 
 const App: React.FC = () => {
   const { axiosInstance, authProvider } = useAuthProvider();
@@ -80,15 +82,15 @@ const App: React.FC = () => {
                     </ThemedLayoutV2>
                   </Authenticated>
                 }
-                path="admin"
+                path={PATH_NAME_ADMIN.KEY}
               >
-                <Route path="products">
+                <Route path={PATH_NAME_ADMIN.PRODUCTS.KEY}>
                   <Route index element={<ProductList />} />
                   <Route path="create" element={<ProductCreate />} />
                   <Route path=":id" element={<ProductShow />} />
                   {/* <Route path="edit/:id" element={<ProductEdit />} /> */}
                 </Route>
-                <Route path="categories">
+                <Route path={PATH_NAME_ADMIN.CATEGORIES.KEY}>
                   <Route index element={<CategoriesList />} />
                   <Route path="create" element={<CategoriesCreate />} />
                   <Route path="edit/:id" element={<CategoriesEdit />} />
@@ -103,13 +105,17 @@ const App: React.FC = () => {
                     </CustomerLayout>
                   </Authenticated>
                 }
-                path="/user"
+                path={PATH_NAME_CUSTOMER.KEY}
               >
-                <Route path="dashboard">
+                <Route path={PATH_NAME_CUSTOMER.DASHBOARD.KEY}>
                   <Route index element={<UserDashboardList />} />
                 </Route>
-                <Route path="favorite">
+                <Route path={PATH_NAME_CUSTOMER.FAVORITE.KEY}>
                   <Route index element={<UserFavoriteList />} />
+                </Route>
+                <Route path={PATH_NAME_CUSTOMER.ORDER_HISTORY.KEY}>
+                  <Route index element={<CustomerOrderHistoryList />} />
+                  <Route path=":id" element={<CustomerOrderHistoryShow />} />
                 </Route>
                 <Route path="*" element={<CatchNotFoundUser />} />
               </Route>
