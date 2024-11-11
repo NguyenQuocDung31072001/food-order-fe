@@ -35,6 +35,10 @@ export const PATH_NAME_CUSTOMER = {
     KEY: 'setting',
     INDEX: '/user/setting',
   },
+  FOOD_DETAIL: {
+    KEY: 'food-detail',
+    INDEX: '/user/food-detail/:id',
+  },
   OTHER: {
     CATCH_ALL: '/user/*',
   },
