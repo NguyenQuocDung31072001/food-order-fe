@@ -1,6 +1,7 @@
 import { CloseOutlined, RightOutlined } from '@ant-design/icons';
 import { css } from '@emotion/react';
 import { Card, Divider, InputNumber } from 'antd';
+import { ModalCheckout } from './checkout/modal-checkout';
 
 const data = Array(10)
   .fill(0)
@@ -67,9 +68,7 @@ export const YourCart: React.FC = () => {
         <span className="text-gray-500 group-hover:text-white">Have a coupon code?</span>{' '}
         <RightOutlined className="font-bold ml-4" />
       </div>
-      <div className="w-full bg-yellow-500 text-white flex items-center justify-center py-3 px-8 rounded-[10px] cursor-pointer hover:bg-yellow-600 duration-300">
-        Checkout
-      </div>
+      <ModalCheckout />
     </Card>
   );
 };
