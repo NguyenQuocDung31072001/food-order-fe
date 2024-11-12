@@ -1,11 +1,14 @@
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { Create, useForm } from '@refinedev/antd';
-import { useApiUrl, useCreate, useDelete } from '@refinedev/core';
+import { useApiUrl, useCreate, useDelete, useNavigation } from '@refinedev/core';
 import { Button, Form, Image, Input, Spin, Upload } from 'antd';
 import { UploadProps } from 'antd/lib';
+import { PATH_NAME_ADMIN } from 'constant/path-route';
 import React from 'react';
 
 export const CategoriesCreate: React.FC = () => {
+  const { push } = useNavigation();
+
   const { form } = useForm();
   const apiUrl = useApiUrl();
 
@@ -31,23 +34,17 @@ export const CategoriesCreate: React.FC = () => {
     </button>
   );
 
-  //   const { mutateAsync: mutateAsyncDelete } = useDelete();
-  //   const handleDeleteImage = async (publicId: string) => {
-  //     await mutateAsyncDelete({
-  //       resource: 'image',
-  //       id: publicId,
-  //     });
-  //   };
-
   const { mutateAsync, isLoading } = useCreate();
   const handleFinish = async (e: any) => {
-    await mutateAsync({
+    mutateAsync({
       resource: 'categories',
       values: {
         name: e.name,
         image: image?.url,
         image_public_id: image?.public_id,
       },
+    }).then(() => {
+      push(PATH_NAME_ADMIN.CATEGORIES.INDEX);
     });
   };
   return (

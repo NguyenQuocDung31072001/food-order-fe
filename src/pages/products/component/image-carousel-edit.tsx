@@ -6,7 +6,7 @@ import {
   PlusOutlined,
   UpOutlined,
 } from '@ant-design/icons';
-import { useApiUrl, useDelete } from '@refinedev/core';
+import { useApiUrl, useCreate, useDelete } from '@refinedev/core';
 import { Button, Empty, Spin, Upload } from 'antd';
 import { UploadProps } from 'antd/lib';
 import React from 'react';
@@ -18,12 +18,13 @@ const ITEM_JUMP = 2;
 type ImageCarouselProps = {
   imageLists: ImageListType[];
   setImageLists: React.Dispatch<React.SetStateAction<ImageListType[]>>;
+  food_id?: string;
 };
 export type ImageListType = {
   url: string;
   public_id: string;
 };
-export const ImageCarouselCreate: React.FC<ImageCarouselProps> = ({ imageLists, setImageLists }) => {
+export const ImageCarouselEdit: React.FC<ImageCarouselProps> = ({ imageLists, setImageLists, food_id }) => {
   const [imageSelected, setImageSelected] = React.useState<ImageListType>();
   const [translateY, setTranslateY] = React.useState(0);
 
@@ -67,11 +68,15 @@ export const ImageCarouselCreate: React.FC<ImageCarouselProps> = ({ imageLists, 
     </button>
   );
 
-  const { mutateAsync: mutateAsyncDelete, isLoading: isLoadingDelete } = useDelete();
+  const { mutateAsync: mutateAsyncDelete, isLoading: isLoadingDeleteImage } = useCreate();
   const handleDeleteImage = async (publicId: string) => {
+    if (!food_id) return;
     await mutateAsyncDelete({
-      resource: 'image',
-      id: publicId,
+      resource: 'foods/delete-image-food',
+      values: {
+        food_id: food_id,
+        image_public_id: publicId,
+      },
     });
   };
   const handleClickDelete = async (e: any, publicId: string) => {
@@ -89,7 +94,7 @@ export const ImageCarouselCreate: React.FC<ImageCarouselProps> = ({ imageLists, 
   };
 
   return (
-    <Spin spinning={loading || isLoadingDelete}>
+    <Spin spinning={loading || isLoadingDeleteImage}>
       <div className="w-full flex">
         <div className="w-[20%] flex flex-col justify-center items-center ">
           <Button

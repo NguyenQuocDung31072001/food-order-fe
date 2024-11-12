@@ -30,15 +30,10 @@ export const CategoriesEdit: React.FC = () => {
     refetch();
   }, []);
 
-  console.log({ form });
-
   const imageWatch = Form.useWatch('image', form);
-  console.log('imageWatch', imageWatch);
 
   const [loading, setLoading] = React.useState(false);
   const handleChange: UploadProps['onChange'] = (info) => {
-    console.log('info', info);
-
     if (info.file.status === 'uploading') {
       setLoading(true);
       return;

@@ -26,17 +26,16 @@ export const ProductShow: React.FC = () => {
   };
   return (
     <Spin spinning={isLoading || isLoadingDelete}>
-      <div className="p-4 bg-white">
+      <div className="px-4 py-6 bg-white rounded-[10px]">
         <div className="flex items-center">
-          <Button
-            style={{ height: 24 }}
-            onClick={() => {
-              push(PATH_NAME_ADMIN.PRODUCTS.INDEX);
-            }}
-          >
-            <ArrowLeftOutlined />
+          <Button type="text" className="mr-4">
+            <ArrowLeftOutlined
+              onClick={() => {
+                push(PATH_NAME_ADMIN.PRODUCTS.INDEX);
+              }}
+            />
           </Button>
-          <p className="m-0">Product Detail</p>
+          <p className="m-0 text-[24px] font-semibold">Product Detail</p>
         </div>
         <div className="flex justify-between">
           <div className="w-[45%]">
@@ -49,7 +48,6 @@ export const ProductShow: React.FC = () => {
                 in Stock
               </Tag>
             </div>
-
             <div className="mb-8">
               <Rate allowHalf defaultValue={2.5} />
               <span>8 Review</span>
@@ -65,15 +63,18 @@ export const ProductShow: React.FC = () => {
               </span>
             </div>
             <Divider />
-            <Typography.Paragraph>{_data?.description}</Typography.Paragraph>
-
-            <p>
-              <span className="font-bold">Category:</span> {_data?.categories?.name}
+            <div className="max-h-[350px] overflow-y-scroll">
+              <Typography.Paragraph>{_data?.description}</Typography.Paragraph>
+            </div>
+            <p className="font-bold mt-2">
+              Category: <span className="ml-2 font-normal">{_data?.categories?.name}</span>
             </p>
-            <div className="flex absolute bottom-0">
-              <Button className="mr-4">Change information</Button>
+            <div className="flex absolute bottom-0 right-10 ">
+              <Button onClick={() => push(`/admin/products/edit/${_data?.id}`)} className="mr-4">
+                Change information
+              </Button>
               <Popconfirm title="Do you want to delete the products?" onConfirm={handleDelete}>
-                <div className="cursor-pointer bg-red-500 text-white flex items-center px-4 rounded-[6px] duration-200  hover:bg-red-600">
+                <div className="cursor-pointer bg-red-500 text-white flex items-center px-4 rounded-[6px] duration-200  hover:bg-red-600 py-2">
                   <DeleteFilled className="mr-2" /> Delete
                 </div>
               </Popconfirm>

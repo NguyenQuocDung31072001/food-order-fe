@@ -26,6 +26,10 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ imageLists }) => {
   const [imageKey, setImageKey] = React.useState(generateKey(imageSelected, 0));
   const [translateY, setTranslateY] = React.useState(0);
 
+  React.useEffect(() => {
+    if (imageLists.length === 0) return;
+    setImageSelected(imageLists[0]);
+  }, [imageLists]);
   return (
     <div className="w-full flex">
       <div className="w-[20%] flex flex-col justify-center items-center ">

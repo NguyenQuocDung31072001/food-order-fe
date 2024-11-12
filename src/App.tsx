@@ -20,7 +20,7 @@ import '@refinedev/antd/dist/reset.css';
 import dataProviderNestJsx from '@refinedev/nestjsx-crud';
 import config from 'config';
 import { useAuthProvider } from 'hooks/use-auth-provider';
-import { ProductCreate, ProductList, ProductShow } from 'pages/products';
+import { ProductCreate, ProductEdit, ProductList, ProductShow } from 'pages/products';
 import { CategoriesCreate, CategoriesEdit, CategoriesList } from 'pages/categories';
 import { LoginPage, RegisterPage } from 'pages/auth';
 import { UserDashboardList } from 'pages/user-dashboard';
@@ -45,7 +45,7 @@ const App: React.FC = () => {
             dataProvider={{
               default: dataProviderNestJsx(config.BACKEND_API_URL + '/api', axiosInstance),
             }}
-            // authProvider={authProvider}
+            authProvider={authProvider}
             options={{
               syncWithLocation: false,
               warnWhenUnsavedChanges: true,
@@ -79,11 +79,11 @@ const App: React.FC = () => {
 
               <Route
                 element={
-                  // <Authenticated key="authenticated-routes" fallback={<CatchAllNavigate to="/login" />}>
-                  // </Authenticated>
-                  <AdminLayout>
-                    <Outlet />
-                  </AdminLayout>
+                  <Authenticated key="authenticated-routes" fallback={<CatchAllNavigate to="/login" />}>
+                    <AdminLayout>
+                      <Outlet />
+                    </AdminLayout>
+                  </Authenticated>
                 }
                 path={PATH_NAME_ADMIN.KEY}
               >
@@ -91,6 +91,7 @@ const App: React.FC = () => {
                   <Route index element={<ProductList />} />
                   <Route path="create" element={<ProductCreate />} />
                   <Route path=":id" element={<ProductShow />} />
+                  <Route path="edit/:id" element={<ProductEdit />} />
                 </Route>
                 <Route path={PATH_NAME_ADMIN.CATEGORIES.KEY}>
                   <Route index element={<CategoriesList />} />

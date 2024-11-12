@@ -1,3 +1,4 @@
+import { PlusCircleOutlined } from '@ant-design/icons';
 import { List, useTable } from '@refinedev/antd';
 import { useNavigation } from '@refinedev/core';
 import { Button, Table } from 'antd';
@@ -48,7 +49,7 @@ export const CategoriesList: React.FC = () => {
               <Button
                 type="link"
                 onClick={() => {
-                  push(`/categories/edit/${record.id}`);
+                  push(`/admin/categories/edit/${record.id}`);
                 }}
               >
                 Edit
@@ -61,6 +62,11 @@ export const CategoriesList: React.FC = () => {
   }, [dataSource]);
   return (
     <List title="Categories listing">
+      <div className="flex justify-end">
+        <Button type="primary" onClick={() => push(`/admin/categories/create`)}>
+          <PlusCircleOutlined /> Add new category
+        </Button>
+      </div>
       <Table rowKey="id" {...tableProps} columns={columns} dataSource={dataSource} />
     </List>
   );

@@ -1,20 +1,46 @@
 import { Create, useForm } from '@refinedev/antd';
 import { Button, Form, Input, InputNumber, Select, Spin } from 'antd';
 import { ImageCarouselCreate, ImageListType } from './component/image-carousel-create';
-import { useCreate } from '@refinedev/core';
+import { useApiUrl, useCreate, useCustomMutation, useOne, useParsed, useUpdate } from '@refinedev/core';
 import { CategoriesSelect } from './component/form/categories-select';
 import React from 'react';
+import { ImageCarouselEdit } from './component/image-carousel-edit';
 
-export const ProductCreate: React.FC = () => {
+export const ProductEdit: React.FC = () => {
   const [imageLists, setImageLists] = React.useState<ImageListType[]>([]);
+  const [exitingPublicId, setExitingPublicId] = React.useState<string[]>([]);
   const { form } = useForm();
-  const { mutateAsync: mutateAsyncFood, isLoading: isLoadingCreateFood } = useCreate();
+
+  const { mutateAsync: mutateAsyncFood, isLoading: isLoadingCreateFood } = useCustomMutation();
   const { mutateAsync: mutateAsyncImageFood, isLoading: isLoadingCreateImageFood } = useCreate();
 
+  const { id } = useParsed();
+  const { data, isLoading, refetch } = useOne({
+    resource: 'foods',
+    id: id,
+    queryOptions: {
+      onSuccess: (data) => {
+        const _data = data?.data ?? {};
+        form.setFieldsValue({
+          name: _data?.name,
+          price: _data?.price,
+          quantity: _data?.amount,
+          description: _data?.description,
+          category: _data?.categories_id,
+        });
+        setImageLists((_data?.imageFoods ?? [])?.map((i: any) => ({ public_id: i.image_public_id, url: i.image })));
+        setExitingPublicId((_data?.imageFoods ?? [])?.map((i: any) => i.image_public_id));
+      },
+    },
+  });
+
+  const apiUrl = useApiUrl();
   const handleSubmit = (e: any) => {
     console.log({ e });
+    const resource = `${apiUrl}/foods/${id}` as string;
     mutateAsyncFood({
-      resource: 'foods',
+      method: 'patch',
+      url: resource,
       values: {
         name: e.name,
         price: e.price,
@@ -23,12 +49,12 @@ export const ProductCreate: React.FC = () => {
         categories_id: e.category,
         categories: e.category,
       },
-    }).then((res) => {
-      console.log({ res });
+    }).then(async (res) => {
       const _data = res.data;
       const id = _data?.id;
-      for (const image of imageLists) {
-        mutateAsyncImageFood({
+      const _imageListToCreate = imageLists.filter((i) => !exitingPublicId.includes(i.public_id));
+      for (const image of _imageListToCreate) {
+        await mutateAsyncImageFood({
           resource: 'image-food',
           values: {
             food_id: id,
@@ -38,22 +64,27 @@ export const ProductCreate: React.FC = () => {
           },
         });
       }
+      refetch();
     });
   };
   return (
     <Create
-      title="Create Product"
+      title="Edit Product"
       saveButtonProps={{
         style: {
           display: 'none',
         },
       }}
     >
-      <Spin spinning={isLoadingCreateFood || isLoadingCreateImageFood}>
+      <Spin spinning={isLoading || isLoadingCreateFood || isLoadingCreateImageFood}>
         <Form name="create-food" layout="vertical" form={form} onFinish={handleSubmit}>
           <div className="flex justify-between ">
             <div className="w-[45%]">
-              <ImageCarouselCreate imageLists={imageLists} setImageLists={setImageLists} />
+              <ImageCarouselEdit
+                imageLists={imageLists}
+                setImageLists={setImageLists}
+                food_id={data?.data?.id as string}
+              />
             </div>
             <div className="w-[50%] mr-8">
               <Form.Item
@@ -128,7 +159,7 @@ export const ProductCreate: React.FC = () => {
           </div>
           <div className="flex justify-end">
             <Button type="primary" onClick={() => form.submit()}>
-              Create Product
+              Update Product
             </Button>
           </div>
         </Form>

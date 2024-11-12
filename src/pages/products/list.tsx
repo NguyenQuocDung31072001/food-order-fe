@@ -64,22 +64,22 @@ export const ProductList: React.FC<ProductListProps> = () => {
           return record.updated_at?.split('T')?.[0];
         },
       },
-      // {
-      //   title: 'Action',
-      //   key: 'action',
-      //   render: (record: any) => {
-      //     return (
-      //       <div>
-      //         {/* <Button className="group" type="text" onClick={() => push(`/admin/products/edit/${record.id}`)}>
-      //           <EditOutlined className="group-hover:text-blue-500" />
-      //         </Button> */}
-      //         <Button className="group" type="text">
-      //           <DeleteFilled className="group-hover:text-red-500" />
-      //         </Button>
-      //       </div>
-      //     );
-      //   },
-      // },
+      {
+        title: 'Action',
+        key: 'action',
+        render: (record: any) => {
+          return (
+            <div className="" onClick={(e) => e.stopPropagation()}>
+              <Button className="group" type="text" onClick={() => push(`/admin/products/edit/${record.id}`)}>
+                <EditOutlined className="group-hover:text-blue-500" />
+              </Button>
+              {/* <Button className="group" type="text">
+                <DeleteFilled className="group-hover:text-red-500" />
+              </Button> */}
+            </div>
+          );
+        },
+      },
     ];
   }, [dataSource]);
 
