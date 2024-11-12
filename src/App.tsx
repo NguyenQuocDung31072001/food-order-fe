@@ -31,6 +31,7 @@ import { CustomerOrderHistoryList, CustomerOrderHistoryShow } from 'pages/custom
 import { PATH_NAME_ADMIN, PATH_NAME_CUSTOMER } from 'constant/path-route';
 import { CustomerSettingAccountList } from './pages/customer-seting-account/list';
 import { CustomerFoodDetailShow } from 'pages/customer-food-detail';
+import { AdminLayout } from 'components/layout/admin-layout';
 
 const App: React.FC = () => {
   const { axiosInstance, authProvider } = useAuthProvider();
@@ -44,7 +45,7 @@ const App: React.FC = () => {
             dataProvider={{
               default: dataProviderNestJsx(config.BACKEND_API_URL + '/api', axiosInstance),
             }}
-            authProvider={authProvider}
+            // authProvider={authProvider}
             options={{
               syncWithLocation: false,
               warnWhenUnsavedChanges: true,
@@ -78,11 +79,11 @@ const App: React.FC = () => {
 
               <Route
                 element={
-                  <Authenticated key="authenticated-routes" fallback={<CatchAllNavigate to="/login" />}>
-                    <ThemedLayoutV2 Header={Header} Title={Title} OffLayoutArea={OffLayoutArea}>
-                      <Outlet />
-                    </ThemedLayoutV2>
-                  </Authenticated>
+                  // <Authenticated key="authenticated-routes" fallback={<CatchAllNavigate to="/login" />}>
+                  // </Authenticated>
+                  <AdminLayout>
+                    <Outlet />
+                  </AdminLayout>
                 }
                 path={PATH_NAME_ADMIN.KEY}
               >
@@ -90,14 +91,13 @@ const App: React.FC = () => {
                   <Route index element={<ProductList />} />
                   <Route path="create" element={<ProductCreate />} />
                   <Route path=":id" element={<ProductShow />} />
-                  {/* <Route path="edit/:id" element={<ProductEdit />} /> */}
                 </Route>
                 <Route path={PATH_NAME_ADMIN.CATEGORIES.KEY}>
                   <Route index element={<CategoriesList />} />
                   <Route path="create" element={<CategoriesCreate />} />
                   <Route path="edit/:id" element={<CategoriesEdit />} />
                 </Route>
-                <Route path="*" element={<CatchNotFoundAdmin />} />
+                {/* <Route path="*" element={<CatchNotFoundAdmin />} /> */}
               </Route>
               <Route
                 element={

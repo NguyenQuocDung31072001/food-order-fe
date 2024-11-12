@@ -91,6 +91,7 @@ export const ImageCarouselCreate: React.FC<ImageCarouselProps> = ({ imageLists, 
             <Upload
               name="file"
               listType="picture-card"
+              accept="image/*"
               showUploadList={false}
               action={`${apiUrl}/image/upload`}
               onChange={handleChange}
