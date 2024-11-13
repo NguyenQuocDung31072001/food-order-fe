@@ -1,17 +1,12 @@
 import React from 'react';
-import { Authenticated, Refine } from '@refinedev/core';
+import { Refine } from '@refinedev/core';
 import { RefineKbarProvider } from '@refinedev/kbar';
-import { ThemedLayoutV2, useNotificationProvider } from '@refinedev/antd';
-import routerProvider, {
-  CatchAllNavigate,
-  UnsavedChangesNotifier,
-  DocumentTitleHandler,
-} from '@refinedev/react-router-v6';
+import { useNotificationProvider } from '@refinedev/antd';
+import routerProvider, { UnsavedChangesNotifier, DocumentTitleHandler } from '@refinedev/react-router-v6';
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 
 import 'dayjs/locale/de';
 
-import { Header, Title, OffLayoutArea } from './components';
 import { ConfigProvider } from './context';
 
 import 'assets/styles/styles.scss';
@@ -26,15 +21,21 @@ import { LoginPage, RegisterPage } from 'pages/auth';
 import { UserDashboardList } from 'pages/user-dashboard';
 import { CustomerLayout } from 'components/layout';
 import { UserFavoriteList } from 'pages/user-favorite';
-import { CatchNotFoundAdmin, CatchNotFoundOther, CatchNotFoundUser } from 'pages/catch-not-found';
 import { CustomerOrderHistoryList, CustomerOrderHistoryShow } from 'pages/customer-order-history';
-import { PATH_NAME_ADMIN, PATH_NAME_CUSTOMER } from 'constant/path-route';
+import { PATH_NAME_ADMIN, PATH_NAME_CUSTOMER, PATH_NAME_OTHER } from 'constant/path-route';
 import { CustomerSettingAccountList } from './pages/customer-seting-account/list';
 import { CustomerFoodDetailShow } from 'pages/customer-food-detail';
 import { AdminLayout } from 'components/layout/admin-layout';
+import {
+  AdminAuthenticationWrapper,
+  CustomerAuthenticationWrapper,
+  OtherAuthenticationWrapper,
+} from 'components/authen-wrapper';
+import { PageNotFound } from 'pages/not-found';
+import { Logout } from 'pages/logout';
 
 const App: React.FC = () => {
-  const { axiosInstance, authProvider } = useAuthProvider();
+  const { axiosInstance } = useAuthProvider();
 
   return (
     <BrowserRouter>
@@ -45,7 +46,7 @@ const App: React.FC = () => {
             dataProvider={{
               default: dataProviderNestJsx(config.BACKEND_API_URL + '/api', axiosInstance),
             }}
-            authProvider={authProvider}
+            // authProvider={authProvider}
             options={{
               syncWithLocation: false,
               warnWhenUnsavedChanges: true,
@@ -72,18 +73,24 @@ const App: React.FC = () => {
             ]}
           >
             <Routes>
-              <Route element={<Outlet />}>
+              <Route
+                element={
+                  <OtherAuthenticationWrapper>
+                    <Outlet />
+                  </OtherAuthenticationWrapper>
+                }
+              >
                 <Route path={'/login'} element={<LoginPage />} />
                 <Route path={'/register'} element={<RegisterPage />} />
               </Route>
 
               <Route
                 element={
-                  <Authenticated key="authenticated-routes" fallback={<CatchAllNavigate to="/login" />}>
+                  <AdminAuthenticationWrapper>
                     <AdminLayout>
                       <Outlet />
                     </AdminLayout>
-                  </Authenticated>
+                  </AdminAuthenticationWrapper>
                 }
                 path={PATH_NAME_ADMIN.KEY}
               >
@@ -98,15 +105,14 @@ const App: React.FC = () => {
                   <Route path="create" element={<CategoriesCreate />} />
                   <Route path="edit/:id" element={<CategoriesEdit />} />
                 </Route>
-                {/* <Route path="*" element={<CatchNotFoundAdmin />} /> */}
               </Route>
               <Route
                 element={
-                  <Authenticated key="authenticated-routes" fallback={<CatchAllNavigate to="/login" />}>
+                  <CustomerAuthenticationWrapper>
                     <CustomerLayout>
                       <Outlet />
                     </CustomerLayout>
-                  </Authenticated>
+                  </CustomerAuthenticationWrapper>
                 }
                 path={PATH_NAME_CUSTOMER.KEY}
               >
@@ -126,9 +132,9 @@ const App: React.FC = () => {
                 <Route path={PATH_NAME_CUSTOMER.SETTING.KEY}>
                   <Route index element={<CustomerSettingAccountList />} />
                 </Route>
-                <Route path="*" element={<CatchNotFoundUser />} />
               </Route>
-              <Route path="*" element={<CatchNotFoundOther />} />
+              <Route path={PATH_NAME_OTHER.LOGOUT} element={<Logout />} />
+              <Route path="*" element={<PageNotFound />} />
             </Routes>
             <UnsavedChangesNotifier />
             <DocumentTitleHandler />

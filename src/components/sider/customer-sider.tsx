@@ -1,6 +1,12 @@
-import { HighlightOutlined, MenuFoldOutlined, PieChartOutlined, SettingOutlined } from '@ant-design/icons';
+import {
+  HighlightOutlined,
+  LogoutOutlined,
+  MenuFoldOutlined,
+  PieChartOutlined,
+  SettingOutlined,
+} from '@ant-design/icons';
 import { useNavigation } from '@refinedev/core';
-import { PATH_NAME_CUSTOMER } from 'constant/path-route';
+import { PATH_NAME_CUSTOMER, PATH_NAME_OTHER } from 'constant/path-route';
 import { NavLink } from 'react-router-dom';
 
 const items = [
@@ -23,6 +29,11 @@ const items = [
     icon: <SettingOutlined />,
     name: 'Setting',
     route: PATH_NAME_CUSTOMER.SETTING.INDEX,
+  },
+  {
+    icon: <LogoutOutlined />,
+    name: 'Logout',
+    route: PATH_NAME_OTHER.LOGOUT,
   },
 ];
 export const CustomerSider: React.FC<any> = () => {

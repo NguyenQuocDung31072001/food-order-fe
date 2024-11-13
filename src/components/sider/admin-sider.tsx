@@ -1,6 +1,6 @@
-import { HighlightOutlined, MenuFoldOutlined, PieChartOutlined, SettingOutlined } from '@ant-design/icons';
+import { HighlightOutlined, LogoutOutlined, MenuFoldOutlined } from '@ant-design/icons';
 import { useNavigation } from '@refinedev/core';
-import { PATH_NAME_ADMIN } from 'constant/path-route';
+import { PATH_NAME_ADMIN, PATH_NAME_OTHER } from 'constant/path-route';
 import { NavLink } from 'react-router-dom';
 
 const items = [
@@ -13,6 +13,11 @@ const items = [
     icon: <HighlightOutlined />,
     name: 'Category',
     route: PATH_NAME_ADMIN.CATEGORIES.INDEX,
+  },
+  {
+    icon: <LogoutOutlined />,
+    name: 'Logout',
+    route: PATH_NAME_OTHER.LOGOUT,
   },
 ];
 export const AdminSider: React.FC<any> = () => {

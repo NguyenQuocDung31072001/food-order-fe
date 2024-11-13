@@ -46,6 +46,7 @@ export const PATH_NAME_CUSTOMER = {
 export const PATH_NAME_OTHER = {
   LOGIN: '/login',
   REGISTER: '/register',
+  LOGOUT: '/logout',
   OTHER: {
     CATCH_ALL: '/*',
   },

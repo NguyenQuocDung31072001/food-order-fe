@@ -1,6 +1,6 @@
 import { useForm } from '@refinedev/antd';
 import { useNavigation, useCreate } from '@refinedev/core';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Checkbox, Form, Input } from 'antd';
 import { PATH_NAME_ADMIN, PATH_NAME_CUSTOMER } from 'constant/path-route';
 
 export const LoginPage: React.FC<{}> = () => {
@@ -9,13 +9,11 @@ export const LoginPage: React.FC<{}> = () => {
   const { replace } = useNavigation();
 
   const handleFinish = async (values: any) => {
-    console.log(values);
     await mutateAsync({
       resource: 'auth/login',
       values: values,
     })
       .then((res) => {
-        console.log(res);
         const { accessToken, ...userData } = res.data ?? {};
         localStorage.setItem('token', res.data.accessToken);
         localStorage.setItem('user', JSON.stringify(userData));
