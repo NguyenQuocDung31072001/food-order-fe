@@ -1,6 +1,8 @@
 import React from 'react';
 import { SliderCustom } from 'components/slider/slider-custom';
 import { DishesItem } from 'components/dishes';
+import { useList } from '@refinedev/core';
+import { mappingDataFoodItem } from 'utils/mapping-data-food-item';
 
 const rawData = Array(10)
   .fill(0)
@@ -17,9 +19,14 @@ const rawData = Array(10)
   });
 
 export const PopularDishes: React.FC = () => {
+  const { data: dataApi } = useList({
+    resource: 'foods',
+  });
+  const dataMapping = mappingDataFoodItem(dataApi?.data ?? []);
+
   return (
     <SliderCustom>
-      {rawData.map((item) => {
+      {dataMapping.map((item) => {
         return <DishesItem key={item.id} item={item} />;
       })}
     </SliderCustom>
