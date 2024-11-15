@@ -4,9 +4,28 @@ import { TabsProps } from 'antd/lib';
 import { CustomerProfile } from './component/customer-profile';
 import { CustomerSecurity } from './component/customer-security';
 import { useForm } from '@refinedev/antd';
+import { useOne, useUpdate } from '@refinedev/core';
+import { getTokenInfo } from 'utils/get-token-info';
+import dayjs from 'dayjs';
 
 export const CustomerSettingAccountList = () => {
   const { form } = useForm();
+
+  const { userId } = getTokenInfo();
+  useOne({
+    resource: 'customer',
+    id: userId,
+    queryOptions: {
+      onSuccess: (data) => {
+        console.log('data', data?.data);
+        const _data = {
+          ...data?.data,
+          date_of_birth: dayjs(data?.data?.date_of_birth),
+        };
+        form.setFieldsValue(_data);
+      },
+    },
+  });
 
   const items: TabsProps['items'] = [
     {
@@ -20,7 +39,18 @@ export const CustomerSettingAccountList = () => {
       children: <CustomerSecurity form={form} />,
     },
   ];
-
+  const { mutateAsync } = useUpdate();
+  const handleFinish = async (values: any) => {
+    if (!userId) return;
+    await mutateAsync({
+      resource: 'customer',
+      values: {
+        ...values,
+      },
+      id: userId,
+    });
+    console.log('values ', values);
+  };
   return (
     <div
       className="pt-10"
@@ -40,11 +70,14 @@ export const CustomerSettingAccountList = () => {
         }
       `}
     >
-      <Form name="profile-information" layout="vertical">
+      <Form name="profile-information" layout="vertical" onFinish={handleFinish} form={form}>
         <Tabs defaultActiveKey="1" items={items} />
         <div className="flex justify-end w-full ">
           <div className="w-[20%] flex">
-            <div className="bg-yellow-500 text-white py-2 px-12 rounded-[10px] hover:bg-yellow-600 cursor-pointer duration-300">
+            <div
+              className="bg-yellow-500 text-white py-2 px-12 rounded-[10px] hover:bg-yellow-600 cursor-pointer duration-300"
+              onClick={() => form.submit()}
+            >
               Save
             </div>
           </div>

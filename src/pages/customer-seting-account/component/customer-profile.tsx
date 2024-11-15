@@ -7,7 +7,7 @@ export const CustomerProfile: React.FC<{ form: FormInstance<{}> }> = () => {
         <img src="https://cdn-icons-png.flaticon.com/512/5556/5556499.png" className="w-40 h-40 rounded-[50%]" />
       </div>
       <div className="w-[42%] px-2">
-        <Form.Item label="Your Name" name="name">
+        <Form.Item label="Your Name" name="fullname">
           <Input
             placeholder="Dung nguyen"
             style={{
@@ -49,7 +49,7 @@ export const CustomerProfile: React.FC<{ form: FormInstance<{}> }> = () => {
         </Form.Item>
       </div>
       <div className="w-[42%] px-2">
-        <Form.Item label="User Name" name="user_name">
+        <Form.Item label="User Name" name="username">
           <Input
             placeholder="dungnguyen"
             style={{
@@ -65,7 +65,7 @@ export const CustomerProfile: React.FC<{ form: FormInstance<{}> }> = () => {
             }}
           />
         </Form.Item>
-        <Form.Item label="Present Address" name="present_address">
+        <Form.Item label="Present Address" name="recent_address">
           <Input
             placeholder="Tan binh, Ho Chi Minh ..."
             style={{

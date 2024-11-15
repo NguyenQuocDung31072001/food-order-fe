@@ -4,18 +4,18 @@ export const BilingInformation: React.FC = () => {
   return (
     <>
       <div className="flex flex-wrap">
-        <Form.Item label="First name" name="first_name">
+        <Form.Item label="Full name" name="fullname">
           <Input
-            placeholder="Your first name"
+            placeholder="Your name"
             style={{
               width: 200,
               marginRight: 20,
             }}
           />
         </Form.Item>
-        <Form.Item label="Last name" name="last_name">
+        <Form.Item label="User name" name="username">
           <Input
-            placeholder="Your last name"
+            placeholder="Your username"
             style={{
               width: 200,
               marginRight: 20,
@@ -50,7 +50,7 @@ export const BilingInformation: React.FC = () => {
           />
         </Form.Item>
       </div>
-      <Form.Item label="Detail Address" name="detail_address">
+      <Form.Item label="Detail Address" name="recent_address">
         <Input
           placeholder="Detail Address"
           style={{

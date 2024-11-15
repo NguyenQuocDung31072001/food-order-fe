@@ -4,9 +4,23 @@ import { Divider, Form, Modal, Radio, Space } from 'antd';
 import { useGetCartItems } from 'hooks/use-get-cart-items';
 import { useState } from 'react';
 import { BilingInformation } from './billing-information';
+import { getTokenInfo } from 'utils/get-token-info';
+import { useOne } from '@refinedev/core';
 
 export const ModalCheckout: React.FC = () => {
+  const { userId } = getTokenInfo();
   const { form } = useForm();
+
+  useOne({
+    resource: 'customer',
+    id: userId,
+    queryOptions: {
+      onSuccess: (data) => {
+        const _data = data?.data ?? {};
+        form.setFieldsValue(_data);
+      },
+    },
+  });
   const [open, setOpen] = useState(false);
 
   const { data, totalPrice } = useGetCartItems();
