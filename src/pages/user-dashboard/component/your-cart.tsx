@@ -6,6 +6,7 @@ import React from 'react';
 import { ADD_CART_EVENT } from 'constant/event-name';
 import { useList } from '@refinedev/core';
 import { getTokenInfo } from 'utils/get-token-info';
+import { CartItem } from './cart';
 
 export const YourCart: React.FC = () => {
   const { userId } = getTokenInfo();
@@ -54,7 +55,9 @@ export const YourCart: React.FC = () => {
       });
     };
   }, []);
-
+  const total = dataMapping?.reduce((acc, item) => {
+    return acc + item.price * item.quantity;
+  }, 0);
   return (
     <Card
       css={css`
@@ -67,30 +70,7 @@ export const YourCart: React.FC = () => {
       <Spin spinning={isLoading}>
         <div className="max-h-[300px] overflow-y-scroll ">
           {dataMapping?.map((item) => {
-            return (
-              <div key={item?.id + item?.quantity} className="flex justify-start items-center my-2">
-                <div className="flex items-center justify-around w-[90%]">
-                  <img src={item.image} alt="" className="w-[36px] h-[36px] rounded-[50%] " />
-                  <div className="w-[50%]  px-2">
-                    <p className="p-0 m-0">{item.name}</p>
-                    <span>
-                      +<span className="text-yellow-500">$</span>
-                      {item.price}
-                    </span>
-                  </div>
-                  <InputNumber
-                    defaultValue={item?.quantity}
-                    min={1}
-                    max={item.amount}
-                    size="small"
-                    style={{
-                      width: '50px',
-                    }}
-                  />
-                </div>
-                <CloseOutlined />
-              </div>
-            );
+            return <CartItem key={item?.id} item={item} refetch={refetch} />;
           })}
         </div>
       </Spin>
@@ -104,7 +84,8 @@ export const YourCart: React.FC = () => {
       <div className="flex justify-between items-center text-[14px]">
         <span className="font-medium">Total</span>
         <span>
-          +<span className="text-yellow-500">$</span>202.00
+          +<span className="text-yellow-500">$</span>
+          {total}
         </span>
       </div>
       <div className="group my-4 p-2 text-[12px] w-full border-[2px] border-solid border-yellow-500 rounded-[10px] bg-gray-100 flex items-center justify-center cursor-pointer  duration-300 hover:bg-yellow-500 hover:text-white">

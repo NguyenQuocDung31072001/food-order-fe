@@ -5,7 +5,10 @@ export const getTokenInfo = () => {
   const token: any = localStorage.getItem(config.TOKEN_KEY);
   try {
     const decode = jwtDecode(token) as any;
-    return decode;
+    return {
+      userId: decode?.userId,
+      ...decode,
+    };
   } catch (error) {
     return {};
   }
