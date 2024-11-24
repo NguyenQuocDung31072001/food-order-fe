@@ -4,24 +4,47 @@ export const BilingInformation: React.FC = () => {
   return (
     <>
       <div className="flex flex-wrap">
-        <Form.Item label="Full name" name="fullname">
-          <Input
-            placeholder="Your name"
-            style={{
-              width: 200,
-              marginRight: 20,
-            }}
-          />
-        </Form.Item>
-        <Form.Item label="User name" name="username">
-          <Input
-            placeholder="Your username"
-            style={{
-              width: 200,
-              marginRight: 20,
-            }}
-          />
-        </Form.Item>
+        <div className="flex justify-between">
+          <Form.Item label="Full name" name="fullname" required>
+            <Input
+              placeholder="Your name"
+              style={{
+                width: 250,
+                marginRight: 20,
+              }}
+            />
+          </Form.Item>
+          <Form.Item label="User name" name="username" required>
+            <Input
+              placeholder="Your username"
+              style={{
+                width: 250,
+                marginRight: 20,
+              }}
+            />
+          </Form.Item>
+        </div>
+
+        <div className="flex justify-between">
+          <Form.Item label="Province" name="province" required>
+            <Input
+              placeholder="Your province"
+              style={{
+                width: 250,
+                marginRight: 20,
+              }}
+            />
+          </Form.Item>
+          <Form.Item label="Ward" name="ward" required>
+            <Input
+              placeholder="Your ward"
+              style={{
+                width: 250,
+                marginRight: 20,
+              }}
+            />
+          </Form.Item>
+        </div>
         <Form.Item label="Company name (optional)" name="company_name">
           <Input
             placeholder="Company name"
@@ -31,26 +54,8 @@ export const BilingInformation: React.FC = () => {
             }}
           />
         </Form.Item>
-        <Form.Item label="Province" name="province">
-          <Input
-            placeholder="Your province"
-            style={{
-              width: 200,
-              marginRight: 20,
-            }}
-          />
-        </Form.Item>
-        <Form.Item label="Ward" name="ward">
-          <Input
-            placeholder="Your ward"
-            style={{
-              width: 200,
-              marginRight: 20,
-            }}
-          />
-        </Form.Item>
       </div>
-      <Form.Item label="Detail Address" name="recent_address">
+      <Form.Item label="Detail Address" name="recent_address" required>
         <Input
           placeholder="Detail Address"
           style={{
@@ -59,23 +64,26 @@ export const BilingInformation: React.FC = () => {
         />
       </Form.Item>
       <div className="flex justify-between">
-        <Form.Item label="Email" name="email">
+        <Form.Item label="Email" name="email" required>
           <Input
             placeholder="Email Address"
             style={{
-              width: 200,
+              width: 250,
             }}
           />
         </Form.Item>
-        <Form.Item label="Phone" name="phone">
+        <Form.Item label="Phone" name="phone" required>
           <Input
             placeholder="Phone number"
             style={{
-              width: 200,
+              width: 250,
             }}
           />
         </Form.Item>
       </div>
+      <Form.Item label="Order notes" name="order_notes">
+        <Input.TextArea placeholder="Order notes" className="w-full" rows={4} />
+      </Form.Item>
     </>
   );
 };

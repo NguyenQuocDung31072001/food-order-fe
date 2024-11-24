@@ -21,6 +21,10 @@ export const useGetCartItems = () => {
         field: 'created_at',
         order: 'desc',
       },
+      {
+        field: 'food.imageFoods.image',
+        order: 'desc',
+      },
     ],
     pagination: {
       pageSize: 100,

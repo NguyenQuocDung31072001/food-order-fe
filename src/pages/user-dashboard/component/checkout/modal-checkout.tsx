@@ -15,16 +15,21 @@ export const ModalCheckout: React.FC = () => {
     resource: 'customer',
     id: userId,
     queryOptions: {
+      enabled: true,
       onSuccess: (data) => {
         const _data = data?.data ?? {};
         form.setFieldsValue(_data);
       },
     },
   });
+
   const [open, setOpen] = useState(false);
 
   const { data, totalPrice } = useGetCartItems();
 
+  const handleFinish = (values: any) => {
+    console.log('values ', values);
+  };
   return (
     <div>
       <div
@@ -34,10 +39,16 @@ export const ModalCheckout: React.FC = () => {
         Checkout
       </div>
 
-      <Modal open={open} onCancel={() => setOpen(false)} width={1000} centered footer={null}>
-        <Form name="modal-checkout" form={form} layout="vertical" className="p-4 flex">
-          <div className="w-[55%] pr-10">
-            <p className="font-bold text-[18px]">Billing Information</p>
+      <Modal open={open} onCancel={() => setOpen(false)} width={1200} centered footer={null}>
+        <Form
+          name="modal-checkout"
+          form={form}
+          layout="vertical"
+          className="p-4 flex justify-between"
+          onFinish={handleFinish}
+        >
+          <div className="w-[50%] pr-10 max-h-[500px] overflow-y-scroll">
+            <p className="font-bold text-[18px] sticky top-0 bg-white z-50">Billing Information</p>
             <BilingInformation />
           </div>
           <div className="p-4 border-[1px] border-solid border-gray-300 rounded-[10px] w-[45%]">
@@ -95,7 +106,10 @@ export const ModalCheckout: React.FC = () => {
                 </Space>
               </Radio.Group>
             </div>
-            <div className="py-2 px-4 bg-yellow-500 hover:bg-yellow-500 cursor-pointer rounded-[10px] text-white duration-300 text-center">
+            <div
+              className="py-2 px-4 bg-yellow-500 hover:bg-yellow-500 cursor-pointer rounded-[10px] text-white duration-300 text-center"
+              onClick={() => form.submit()}
+            >
               Place Order
             </div>
           </div>

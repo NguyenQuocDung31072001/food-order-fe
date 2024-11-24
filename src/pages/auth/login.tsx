@@ -12,6 +12,7 @@ export const LoginPage: React.FC<{}> = () => {
     await mutateAsync({
       resource: 'auth/login',
       values: values,
+      successNotification: false,
     })
       .then((res) => {
         const { accessToken, ...userData } = res.data ?? {};
