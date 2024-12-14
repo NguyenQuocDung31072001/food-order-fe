@@ -1,22 +1,31 @@
 import { Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { ModalReview } from './modal-review';
-
-const dataSource = Array(20)
-  .fill(0)
-  .map((_, index) => {
-    return {
-      id: index,
-      image:
-        'https://sashasfinefoods.com/cdn/shop/products/WEB_Product_Red-Capsicum_a720efe1-2f89-4e7a-a656-a8714cee57f0_1000x1000.png?v=1715060488',
-      name: 'Red Capsicum',
-      price: 10,
-      quantity: 5,
-      subtotal: 50,
-    };
-  });
+import { useList, useParsed } from '@refinedev/core';
 
 export const ProductOrderDetail = () => {
+  const { id } = useParsed();
+  const { data } = useList({
+    resource: 'order-foods',
+    filters: [
+      {
+        field: 'order_id',
+        operator: 'eq',
+        value: id,
+      },
+    ],
+  });
+
+  const dataSource = (data?.data ?? [])?.map((item) => {
+    return {
+      id: item.id,
+      image: item.food?.imageFoods?.[0]?.image,
+      name: item.food?.name,
+      price: item.food?.price,
+      quantity: item.quantity,
+      subtotal: Number(item.food?.price) * Number(item.quantity),
+    };
+  });
   const columns: ColumnsType<any> = [
     {
       title: 'Product',

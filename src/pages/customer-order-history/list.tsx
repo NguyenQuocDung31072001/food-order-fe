@@ -1,23 +1,50 @@
+import { useList } from '@refinedev/core';
 import { Table, Tag } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { PATH_NAME_CUSTOMER } from 'constant/path-route';
 import { Link } from 'react-router-dom';
+import { getTokenInfo } from 'utils/get-token-info';
 
-const dataSource = Array(100)
-  .fill(0)
-  .map((_, index) => {
-    return {
-      id: index,
-      order_number: '123456',
-      total_charge: 100,
-      place_on: '2021-10-10',
-      payment_method: 'Cash',
-      status: 'Delivered',
-      address: '123 Main St, New York, NY 10001',
-    };
-  });
+// const dataSource = Array(100)
+//   .fill(0)
+//   .map((_, index) => {
+//     return {
+//       id: index,
+//       order_number: '123456',
+//       total_charge: 100,
+//       place_on: '2021-10-10',
+//       payment_method: 'Cash',
+//       status: 'Delivered',
+//       address: '123 Main St, New York, NY 10001',
+//     };
+//   });
 
 export const CustomerOrderHistoryList: React.FC = () => {
+  const { userId } = getTokenInfo();
+  const { data } = useList({
+    resource: 'orders',
+    filters: [
+      {
+        field: 'customer_id',
+        operator: 'eq',
+        value: userId,
+      },
+    ],
+    queryOptions: {
+      enabled: !!userId,
+    },
+  });
+  const dataSource = (data?.data ?? [])?.map((item) => {
+    return {
+      id: item.id,
+      order_number: item.order_number,
+      total_charge: item.total_charge,
+      place_on: item.place_on,
+      payment_method: item.paymentMethod?.name,
+      status: item.status,
+      address: item.billingInformation?.detail_address,
+    };
+  });
   const columns: ColumnsType<any> = [
     {
       title: 'Order Number',
