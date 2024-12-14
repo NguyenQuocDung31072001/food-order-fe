@@ -55,7 +55,7 @@ export const BilingInformation: React.FC = () => {
           />
         </Form.Item>
       </div>
-      <Form.Item label="Detail Address" name="recent_address" required>
+      <Form.Item label="Detail Address" name="detail_address" required>
         <Input
           placeholder="Detail Address"
           style={{
@@ -72,7 +72,7 @@ export const BilingInformation: React.FC = () => {
             }}
           />
         </Form.Item>
-        <Form.Item label="Phone" name="phone" required>
+        <Form.Item label="Phone" name="phone_number" required>
           <Input
             placeholder="Phone number"
             style={{

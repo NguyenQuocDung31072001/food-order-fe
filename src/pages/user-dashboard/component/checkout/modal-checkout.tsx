@@ -5,11 +5,15 @@ import { useGetCartItems } from 'hooks/use-get-cart-items';
 import { useState } from 'react';
 import { BilingInformation } from './billing-information';
 import { getTokenInfo } from 'utils/get-token-info';
-import { useOne } from '@refinedev/core';
+import { useCreate, useList, useOne } from '@refinedev/core';
 
-export const ModalCheckout: React.FC = () => {
+export const ModalCheckout: React.FC<{ refetch: any }> = ({ refetch }) => {
   const { userId } = getTokenInfo();
   const { form } = useForm();
+
+  const { data: paymentMethodData } = useList({
+    resource: 'payment-methods',
+  });
 
   useOne({
     resource: 'customer',
@@ -27,8 +31,22 @@ export const ModalCheckout: React.FC = () => {
 
   const { data, totalPrice } = useGetCartItems();
 
-  const handleFinish = (values: any) => {
-    console.log('values ', values);
+  const { mutateAsync: createOrder } = useCreate();
+
+  const handleFinish = async (values: any) => {
+    const { userId } = getTokenInfo();
+    const orderPayload = {
+      customer_id: userId,
+      voucher_id: null,
+      carts: data?.map((item) => item?.id) ?? [],
+      ...values,
+    };
+    await createOrder({
+      resource: 'order',
+      values: orderPayload,
+    });
+    setOpen(false);
+    refetch();
   };
   return (
     <div>
@@ -54,9 +72,9 @@ export const ModalCheckout: React.FC = () => {
           <div className="p-4 border-[1px] border-solid border-gray-300 rounded-[10px] w-[45%]">
             <p className="font-bold">Order Summary</p>
             <div className="max-h-[200px] overflow-y-scroll mb-4">
-              {data.map((item, index) => {
+              {data.map((item) => {
                 return (
-                  <div key={item.name + index} className="flex items-center justify-between my-2">
+                  <div key={item.id} className="flex items-center justify-between my-2">
                     <div className="flex items-center ">
                       <img src={item.image} className="w-10 h-10 rounded-full mr-2" />
                       <span>
@@ -98,13 +116,19 @@ export const ModalCheckout: React.FC = () => {
               `}
             >
               <p>Payment Method</p>
-              <Radio.Group defaultValue={'cash_on_delivery'}>
-                <Space direction="vertical">
-                  <Radio value={'cash_on_delivery'}>Cash on Delivery</Radio>
-                  <Radio value={'internet banking'}>Internet banking</Radio>
-                  <Radio value={'momo'}>Momo</Radio>
-                </Space>
-              </Radio.Group>
+              <Form.Item name={'payment_method_id'} required>
+                <Radio.Group>
+                  <Space direction="vertical">
+                    {paymentMethodData?.data?.map((item) => {
+                      return (
+                        <Radio key={item.id} value={item.id}>
+                          {item?.name}
+                        </Radio>
+                      );
+                    })}
+                  </Space>
+                </Radio.Group>
+              </Form.Item>
             </div>
             <div
               className="py-2 px-4 bg-yellow-500 hover:bg-yellow-500 cursor-pointer rounded-[10px] text-white duration-300 text-center"

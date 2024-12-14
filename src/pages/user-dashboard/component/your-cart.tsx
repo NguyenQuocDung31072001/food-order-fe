@@ -56,7 +56,7 @@ export const YourCart: React.FC = () => {
         <span className="text-gray-500 group-hover:text-white">Have a coupon code?</span>{' '}
         <RightOutlined className="font-bold ml-4" />
       </div>
-      <ModalCheckout />
+      <ModalCheckout refetch={refetch} />
     </Card>
   );
 };
