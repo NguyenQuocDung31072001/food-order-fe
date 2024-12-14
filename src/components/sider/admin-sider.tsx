@@ -1,27 +1,24 @@
-import { HighlightOutlined, LogoutOutlined, MenuFoldOutlined } from '@ant-design/icons';
-import { useNavigation } from '@refinedev/core';
+import { LogoutOutlined } from '@ant-design/icons';
+import { useMenu, useNavigation } from '@refinedev/core';
 import { PATH_NAME_ADMIN, PATH_NAME_OTHER } from 'constant/path-route';
 import { NavLink } from 'react-router-dom';
 
-const items = [
-  {
-    icon: <MenuFoldOutlined />,
-    name: 'Products',
-    route: PATH_NAME_ADMIN.PRODUCTS.INDEX,
-  },
-  {
-    icon: <HighlightOutlined />,
-    name: 'Category',
-    route: PATH_NAME_ADMIN.CATEGORIES.INDEX,
-  },
-  {
-    icon: <LogoutOutlined />,
-    name: 'Logout',
-    route: PATH_NAME_OTHER.LOGOUT,
-  },
-];
 export const AdminSider: React.FC<any> = () => {
   const { push } = useNavigation();
+  const { menuItems } = useMenu();
+  const _menuItems = (menuItems[0]?.children ?? [])
+    .map((item) => {
+      return {
+        icon: item.meta?.icon,
+        name: item.meta?.label,
+        route: item.key,
+      };
+    })
+    .concat({
+      icon: <LogoutOutlined />,
+      name: 'Logout',
+      route: PATH_NAME_OTHER.LOGOUT,
+    });
 
   return (
     <div className="fixed top-0 left-0 h-[100vh] w-[200px] z-50 bg-white">
@@ -35,7 +32,7 @@ export const AdminSider: React.FC<any> = () => {
         </div>
       </div>
       <div className="flex flex-col">
-        {items.map((item, index) => {
+        {_menuItems.map((item, index) => {
           return (
             <NavLink
               style={{ textDecoration: 'none' }}

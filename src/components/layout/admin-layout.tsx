@@ -10,7 +10,7 @@ export const AdminLayout: React.FC<CustomerLayoutProps> = ({ children }) => {
         <div className="w-[200px]">
           <AdminSider />
         </div>
-        <div className="ml-4 flex-1 p-4">{children}</div>
+        <div className="ml-4 flex-1 p-8">{children}</div>
       </div>
     </div>
   );

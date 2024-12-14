@@ -13,6 +13,10 @@ export const PATH_NAME_ADMIN = {
     CREATE: '/admin/categories/create',
     EDIT: '/admin/categories/edit/:id',
   },
+  PAYMENT_METHODS: {
+    KEY: 'payment-methods',
+    INDEX: '/admin/payment-methods',
+  },
   OTHER: {
     CATCH_ALL: '/admin/*',
   },

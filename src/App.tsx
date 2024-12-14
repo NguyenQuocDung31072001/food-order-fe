@@ -33,6 +33,8 @@ import {
 } from 'components/authen-wrapper';
 import { PageNotFound } from 'pages/not-found';
 import { Logout } from 'pages/logout';
+import { PaymentMethods } from 'pages/payment-methods';
+import { HighlightOutlined, MenuFoldOutlined } from '@ant-design/icons';
 
 const App: React.FC = () => {
   const { axiosInstance } = useAuthProvider();
@@ -61,6 +63,10 @@ const App: React.FC = () => {
                 list: '/products',
                 create: '/products/create',
                 show: '/products/:id',
+                meta: {
+                  icon: <MenuFoldOutlined />,
+                  label: 'Products',
+                },
                 parentName: 'admin',
               },
               {
@@ -68,6 +74,19 @@ const App: React.FC = () => {
                 list: '/categories',
                 create: '/categories/create',
                 edit: '/categories/edit/:id',
+                meta: {
+                  icon: <HighlightOutlined />,
+                  label: 'Categories',
+                },
+                parentName: 'admin',
+              },
+              {
+                name: 'payment-methods',
+                list: '/payment-methods',
+                meta: {
+                  icon: <HighlightOutlined />,
+                  label: 'Payment Methods',
+                },
                 parentName: 'admin',
               },
             ]}
@@ -104,6 +123,9 @@ const App: React.FC = () => {
                   <Route index element={<CategoriesList />} />
                   <Route path="create" element={<CategoriesCreate />} />
                   <Route path="edit/:id" element={<CategoriesEdit />} />
+                </Route>
+                <Route path={PATH_NAME_ADMIN.PAYMENT_METHODS.KEY}>
+                  <Route index element={<PaymentMethods />} />
                 </Route>
               </Route>
               <Route
